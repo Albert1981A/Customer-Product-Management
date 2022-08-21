@@ -6,6 +6,9 @@ export const customersSlice = createSlice({
     name: 'customers',
     initialState,
     reducers: {
+        initCustomerData: (state, action) => {
+            state.customers = action.payload;
+        },
         addOneCustomer: (state, action) => {
             state.customers = [ ...state.customers, action.payload ]
         },
@@ -25,6 +28,6 @@ export const customersSlice = createSlice({
     }
 });
 
-export const { addOneCustomer, updateOneCustomer, deleteOneCustomer } = customersSlice.actions;
+export const { initCustomerData, addOneCustomer, updateOneCustomer, deleteOneCustomer } = customersSlice.actions;
 
 export default customersSlice.reducer;

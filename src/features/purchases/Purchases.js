@@ -1,40 +1,41 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { addOnePurchase, updateOnePurchase, deleteOnePurchase } from './purchasesSlice';
-import utils from '../../utils/UtilsOptions';
+import { useSelector } from "react-redux";
+import { Container, Typography, Box } from "@mui/material";
+// import { addOnePurchase, updateOnePurchase, deleteOnePurchase } from './purchasesSlice';
+// import utils1 from '../../utils/UtilsOptions';
 
 function Purchases() {
 
     const purchasesList = useSelector((state) => state.purchasesList.purchases);
-    console.log(purchasesList);
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    const addPurchases = () => {
-        const dateFormatted = utils.getSystemDateFormatted();
-        let obj = { id: 1, customerId: 1, productId: 1, date:  dateFormatted  }
-        dispatch(addOnePurchase(obj));
-    }
+    // const addPurchases = () => {
+    //     const dateFormatted = utils1.getSystemDateFormatted();
+    //     let obj = { id: 1, customerId: 1, productId: 1, date: dateFormatted }
+    //     dispatch(addOnePurchase(obj));
+    // }
 
-    const updatePurchases = () => {
-        const dateFormatted = utils.getSystemDateFormatted();
-        let obj = { id: 1, customerId: 2, productId: 2, date: dateFormatted }
-        dispatch(updateOnePurchase(obj));
-    }
+    // const updatePurchases = () => {
+    //     const dateFormatted = utils1.getSystemDateFormatted();
+    //     let obj = { id: 1, customerId: 2, productId: 2, date: dateFormatted }
+    //     dispatch(updateOnePurchase(obj));
+    // }
 
-    const deletePurchases = () => {
-        let id = 1
-        dispatch(deleteOnePurchase(id));
-    }
+    // const deletePurchases = () => {
+    //     let id = 1
+    //     dispatch(deleteOnePurchase(id));
+    // }
 
     return (
-        <div>
-            <h1>Purchases Header</h1>
+        <Container>
 
-            <input type="button" value="Add Purchases" onClick={addPurchases} />
+            <Typography variant="h4" gutterBottom component="div" sx={{ color: '#383838' }} >
+                Purchases
+            </Typography>
 
-            {purchasesList &&
-                <div>
+            {purchasesList.length > 0 ?
+                <Container sx={{ maxWidth: '620px' }}>
                     <ul>
                         {purchasesList.map((item) => {
                             return <li key={item.id}>
@@ -42,15 +43,20 @@ function Purchases() {
                             </li>
                         })}
                     </ul>
-                </div>
+                </Container>
+                :
+                <Typography component="div">
+                    <Box sx={{ fontWeight: 'bold', m: 1, color: '#383838' }}> NO PURCHASES </Box>
+                </Typography>
             }
+
+            {/* <input type="button" value="Add Purchases" onClick={addPurchases} />
 
             <input type="button" value="Update Purchases" onClick={updatePurchases} /> <br /> <br />
 
-            <input type="button" value="delete Purchases" onClick={deletePurchases} />
+            <input type="button" value="delete Purchases" onClick={deletePurchases} /> */}
 
-            <h1>Purchases Footer</h1>
-        </div>
+        </Container>
     );
 }
 export default Purchases;

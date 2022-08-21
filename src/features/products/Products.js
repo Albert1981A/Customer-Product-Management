@@ -1,63 +1,96 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Customers from "../customers/Customers";
-import Purchases from "../purchases/Purchases";
-import { addOneProduct, updateOneProduct, deleteOneProduct } from './productsSlice';
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import ProductComp from "../product/Product";
+import { Container, Typography, Box } from "@mui/material";
+import utils1 from "../../utils/UtilsOptions";
+// import { Outlet, useNavigate } from "react-router-dom";
+
+// import { addOneProduct, updateOneProduct, deleteOneProduct } from './productsSlice';
+// import { addOnePurchase, updateOnePurchase, deleteOnePurchase } from '../purchases/purchasesSlice';
+
 
 function Products() {
 
+    const [customersWithProducts, setCustomersWithProducts] = useState();
+
+
     const productsList = useSelector((state) => state.productsList.products);
-    console.log(productsList);
+    const purchasesList = useSelector((state) => state.purchasesList.purchases);
+    const customersList = useSelector((state) => state.customersList.customers);
 
-    const dispatch = useDispatch();
+    useEffect(() => {
+        function initData() {
+            let customers = utils1.getCustomersWithProducts(customersList, productsList, purchasesList);
+            setCustomersWithProducts(customers)
+        }
+        initData();
+    }, [customersList, productsList, purchasesList])
 
-    const addProduct = () => {
-        let obj = { id: 1, name: "Bamba", price: 7, quantity: 3 }
-        dispatch(addOneProduct(obj));
-    }
+    // console.log(productsList);
+    // console.log(purchasesList);
 
-    const updateProduct = () => {
-        let obj = { id: 1, name: "new Bamba", price: 30, quantity: 12 }
-        dispatch(updateOneProduct(obj));
-    }
+    // const dispatch = useDispatch();
 
-    const deleteProduct = () => {
-        let id = 1
-        dispatch(deleteOneProduct(id));
-    }
+    // const addProduct = () => {
+    //     let obj = { id: 4, name: "Bamba", price: 7, quantity: 3 }
+    //     dispatch(addOneProduct(obj));
+    // }
+
+    // const updateProduct = () => {
+    //     let obj = { id: 4, name: "new Bamba", price: 30, quantity: 12 }
+    //     dispatch(updateOneProduct(obj));
+    // }
+
+    // const deleteProduct = () => {
+    //     let id = 4
+    //     dispatch(deleteOneProduct(id));
+    // }
 
     return (
-        <div>
-            <h1>Products Header</h1>
+        <Container>
+            <Typography variant="h4" gutterBottom component="div" sx={{ color: '#1976d2' }} >
+                Products
+            </Typography>
+            <Typography component="div">
+                <Box sx={{ fontWeight: 'bold', m: 1, color: '#1976d2' }}>Total Purchased Products: {purchasesList.length}</Box>
+            </Typography>
 
-            <input type="button" value="Add Product" onClick={addProduct} />
 
-            {productsList &&
-                <div>
-                    <ul>
-                        {productsList.map((item) => {
-                            return <li key={item.id}>
-                                ID: {item.id} - Name: {item.name} - Price: {item.price} - Quantity: {item.quantity}
-                            </li>
-                        })}
-                    </ul>
-                </div>
-            }
+            <Container>
+                <Box sx={{ my: 2 }}>
+                    {
+                        productsList.length > 0 ?
+                            productsList.map((item) => {
+                                let productCustomers1 = []
+                                if (customersWithProducts !== undefined) {
+                                    for (let i = 0; i < customersWithProducts.length; i++) {
+                                        const element1 = customersWithProducts[i];
+                                        if (element1.customerProducts !== undefined) {
+                                            let obj = element1.customerProducts.filter(x => x.id === item.id)
+                                            if (obj.length > 0) {
+                                                productCustomers1.push(element1)
+                                            }
+                                        }
+
+                                    }
+                                }
+                                return <ProductComp key={item.id} productData={item} productCustomers={productCustomers1} />
+                            })
+                            :
+                            <Typography component="div">
+                                <Box sx={{ fontWeight: 'bold', m: 1, color: '#1976d2' }}> NO PRODUCTS </Box>
+                            </Typography>
+                    }
+                </Box>
+            </Container>
+
+            {/* <input type="button" value="Add Product" onClick={addProduct} />
 
             <input type="button" value="Update Product" onClick={updateProduct} /> <br /> <br />
 
-            <input type="button" value="Update Product" onClick={deleteProduct} />
+            <input type="button" value="Delete Product" onClick={deleteProduct} /> */}
 
-
-
-            <h1>Products Footer</h1>
-
-
-            <Customers />
-
-            <Purchases />
-
-        </div>
+        </Container>
     );
 }
 export default Products;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
-    Container, Typography, Box, TableContainer, Table, TableBody,
+    Container, Typography, TableContainer, Table, TableBody,
     TableHead, TableRow, styled, TableCell, tableCellClasses, Paper
 } from "@mui/material";
 import AddProduct from "../addProduct/AddProduct";
@@ -69,15 +69,12 @@ function Customers() {
             <Typography variant="h4" gutterBottom component="div" sx={{ color: '#9c27b0' }} >
                 Customers
             </Typography>
-            <Typography component="div">
-                <Box sx={{ fontWeight: 'bold', m: 1, color: '#9c27b0' }}>Customer ID: {customersList.id}</Box>
-            </Typography>
 
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700, backgroundColor: '#CDBE78' }} aria-label="customized table" >
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Customer Name</StyledTableCell>
+                            <StyledTableCell align="center" width="15%">Customer Name</StyledTableCell>
                             <StyledTableCell align="center">Products Name</StyledTableCell>
                             <StyledTableCell align="center">Purchased Date</StyledTableCell>
                             <StyledTableCell align="center">Buy</StyledTableCell>
@@ -85,9 +82,9 @@ function Customers() {
                     </TableHead>
                     <TableBody>
                         {customersWithProducts !== undefined &&
-                            customersWithProducts.map((item) => (
-                                <StyledTableRow key={item.id}>
-                                    <StyledTableCell component="th" scope="row">
+                            customersWithProducts.map((item) => {
+                                return <StyledTableRow key={item.id}>
+                                    <StyledTableCell align="center" component="th" scope="row">
                                         {item.firstName} {item.lastName}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
@@ -112,7 +109,7 @@ function Customers() {
                                                     item.customerProducts.map((item3) => {
                                                         return <StyledTableRow key={item3.id}>
                                                             <StyledTableCell component="th" scope="row">
-                                                                    Purchase Time: {item3.purchaseTime}
+                                                                Purchase Time: {item3.purchaseTime}
                                                             </StyledTableCell>
                                                         </StyledTableRow>
                                                     })
@@ -124,7 +121,7 @@ function Customers() {
                                         <AddProduct customerData={item} compName={"Customers"} />
                                     </StyledTableCell>
                                 </StyledTableRow>
-                            ))}
+                            })}
                     </TableBody>
                 </Table>
             </TableContainer>

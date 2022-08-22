@@ -47,7 +47,7 @@ function AddProduct(props) {
 
     return (
         <Box>
-            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+            <ButtonGroup variant="contained" aria-label="outlined primary button group" color="secondary">
                 <TextField label={fromComp === "Customers" ? "Select Product to buy" : "Select Product to add"}
                     select value={product}
                     onChange={e => setProduct(e.target.value)}

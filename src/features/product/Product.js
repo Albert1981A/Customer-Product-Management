@@ -2,6 +2,7 @@ import { Button, ButtonGroup, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AddProduct from "../addProduct/AddProduct";
 
 const commonStyles = {
     bgcolor: 'background.paper',
@@ -27,14 +28,6 @@ function ProductComp(props) {
         setProductCustomers(props.productCustomers)
     }, [props])
 
-    const toEditProduct = () => {
-        navigate("/products/product/" + product.id)
-    }
-
-    const toEditCustomer = (id) => {
-        navigate("/products/product/" + id)
-    }
-
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box sx={{ ...commonStyles }} >
@@ -43,7 +36,7 @@ function ProductComp(props) {
 
                         <Box >
                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                <Button onClick={toEditProduct} >
+                                <Button onClick={() => navigate("/products/product/" + product.id)} >
                                     {product.name}
                                 </Button>
                                 <Typography component="div">
@@ -55,12 +48,17 @@ function ProductComp(props) {
                         {
                             productCustomers1.length > 0 &&
                             productCustomers1.map((item) => {
-                                return <Box key={item.id} sx={{ bgcolor: 'background.paper', m: 1, p: 2, border: 2, borderRadius: '16px', borderColor: '#9c27b0' }}>
+                                return <Box key={item.id} sx={{ bgcolor: 'background.paper', m: 1, p: 2, border: 2, borderRadius: '16px', borderColor: '#9c27b0' }} >
+                                    <Box sx={{ display: 'inline-block', marginRight: '10px' }}>
                                     <ButtonGroup variant="contained" aria-label="outlined secondary button group" color={'secondary'}>
-                                        <Button onClick={toEditCustomer} >
+                                        <Button onClick={() => navigate("/customers/customer/" + item.id)} >
                                             {item.firstName} {item.lastName}
                                         </Button>
                                     </ButtonGroup>
+                                    </Box>
+                                    <Box sx={{ display: 'inline-block', marginRight: '10px' }}>
+                                    <AddProduct customerData={item} compName={"Product"} />
+                                    </Box>
                                     {
                                         item.customerProducts.map((item2) => {
                                             return <Typography key={item2.id} component="div">

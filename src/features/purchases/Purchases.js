@@ -62,6 +62,13 @@ function Purchases() {
                     }
                 }
             }
+            if (watch("customers") !== "") {
+                let newObj2 = []
+                if (newCustomerList.length > 0) {
+                    newObj2 = newCustomerList.filter(element => element.id === watch("customers"))
+                    newCustomerList = newObj2;
+                }
+            }
         }
         else if (watch("customers") !== "") {
             // console.log(watch("customers"));
@@ -117,7 +124,7 @@ function Purchases() {
             <Typography variant="h4" gutterBottom component="div" sx={{ color: '#383838' }} >
                 Purchases
             </Typography>
-            <br /> 
+            <br />
 
             <form onSubmit={handleSubmit(onSubmit)}>
 
